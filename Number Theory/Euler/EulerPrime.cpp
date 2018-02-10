@@ -1,0 +1,25 @@
+#include <cstdio>
+
+const int Maxn = 50000;
+bool isPrime[Maxn];
+int Prime[Maxn],PrimeSize;
+
+void EulerPrime(int ListSize){
+	isPrime[1] = 1;
+	for(int i = 2; i <= ListSize;i++){
+		if(!isPrime[i]) Prime[++PrimeSize] = i;
+		for(int j = 1;j <= PrimeSize && i * Prime[j] <= ListSize;j++){
+			isPrime[i * Prime[j]] = 1;
+			if(!(i % Prime[j])) break;
+		}
+	}
+}
+
+int main(){
+	int UnKnow;
+	scanf("%d",&UnKnow);
+	EulerPrime(UnKnow);
+	for(int i = 1;i < PrimeSize;i+=2) printf("%d %d ",Prime[i],Prime[i+1]);
+	if(PrimeSize&1) printf("%d",Prime[PrimeSize]);
+	return 0;
+}

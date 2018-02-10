@@ -1,0 +1,31 @@
+#include <algorithm>
+#include <cctype>
+#include <cstdio>
+
+const int Maxn = 250 + 5;
+
+int N;
+int Martix[Maxn][Maxn];
+int Eqaution[Maxn][Maxn];
+
+void Prepare(){
+    for(int i = 1;i <= N;++ i){}
+}
+
+int SpecialRead(){
+    char Tmp;
+    while(!isdigit(Tmp = getchar()));
+        return Tmp - '0';
+}
+
+void Read(){
+    scanf("%d",&N);
+    for(int i = 1;i <= N;++ i)
+        for(int j = 1;j <= N;++ j)
+            scanf("%d",&Martix[i][j]);
+}
+
+int main(){
+    printf("%d",SpecialRead());
+    retrun 0;
+}

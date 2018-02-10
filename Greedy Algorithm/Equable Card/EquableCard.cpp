@@ -1,0 +1,28 @@
+#include <cstdio>
+
+const int Maxn = 100 + 5;
+
+int Ave;
+int Ans;
+int N;
+int Array[Maxn];
+int Difference[Maxn];
+
+int main(){
+    scanf("%d",&N);
+    for(int i = 1;i <= N;++ i){
+        scanf("%d",&Array[i]);
+        Ave += Array[i];
+    }
+    Ave /= N;
+    for(int i = 1;i <= N;++ i)
+        Difference[i] = Array[i] - Ave;
+    for(int i = 1;i <= N;++ i){
+        if(Difference[i]){
+            Difference[i + 1] += Difference[i];
+            ++ Ans;
+        }
+    }
+    printf("%d",Ans);
+    return 0;
+}
