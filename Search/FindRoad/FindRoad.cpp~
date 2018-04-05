@@ -1,0 +1,83 @@
+#include <cctype>
+#include <cstdio>
+#include <queue>
+
+const int MaxnNode = 10000 + 5;
+const int MaxnEdge = 200000 + 5;
+
+int Cnt,FCnt;
+int Head[MaxnNode],FHead[MaxnNode];
+struct edge{
+    int Vertex;
+    int Next;
+}Edge[MaxnEdge],FEdge[MaxnEdge];
+
+bool Used[MaxnNode];
+
+int H,T;
+struct queue{
+   int Node;
+   int Value;
+}Queue[MaxnNode];
+
+bool Visited[MaxnNode];
+
+int N,M,Begin,End;
+
+void Add(int From,int To){
+    Edge[++ Cnt].Vertex = To;
+    Edge[Cnt].Next = Head[From];
+    Head[From] = Cnt;
+}
+
+void FAdd(int From,int To){
+    FEdge[++ FCnt].Vertex = To;
+    FEdge[FCnt].Next = FHead[From];
+    FHead[From] = FCnt;
+}
+
+void Read(){
+    scanf("%d%d",&N,&M);
+    int Tmp_1,Tmp_2;
+    for(int i = 1;i <= M;++ i){
+        scanf("%d%d",&Tmp_1,&Tmp_2);
+        FAdd(Tmp_2,Tmp_1);
+    }
+    scanf("%d%d",&Begin,&End);
+}
+
+void DFS(int Vertex){
+    Used[Vertex] = 1;
+    for(int i = FHead[Vertex];i;i = FEdge[i].Next){
+        if(!Used[FEdge[i].Vertex]){
+            Add(FEdge[i].Vertex,Vertex);
+            Used[FEdge[i].Vertex] = 1;
+            DFS(FEdge[i].Vertex);
+        }
+    }
+    Used[Vertex] = 0;
+}
+
+void Solve(){
+    //Used[End] = 1;
+    DFS(End);
+    Queue[++ T].Node = Begin;
+    while(H < T){
+        if(Queue[++ H].Node == End)
+            break;
+        for(int i = Head[Queue[H].Node];i;i = Edge[i].Next){
+            Queue[++ T].Node = Edge[i].Vertex;
+            Queue[T].Value = Queue[H].Value + 1;
+        }
+    }
+}
+
+int main(){
+		freopen("testdata.in","r",stdin);
+    Read();
+    Solve();
+    if(Queue[T].Node == End)
+        printf("%d",Queue[T].Value);
+    else printf("-1");
+    return 0;
+}
