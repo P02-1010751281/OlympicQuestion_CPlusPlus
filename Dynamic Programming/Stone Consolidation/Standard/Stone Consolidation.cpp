@@ -1,43 +1,50 @@
 #include <algorithm>
 #include <cstdio>
 
-const int Maxn = 100 + 5;
+const int Maxn = (400 + 5) << 1;
 
 int Lenth;
 int Array[Maxn];
-int Equation[Maxn][Maxn],Sum[Maxn][Maxn];
+int EquationMin[Maxn][Maxn],EquationMax[Maxn][Maxn];
+int Sum[Maxn];
 
 void Read(){
 	scanf("%d",&Lenth);
-	for(int i = 1;i <= Lenth;i++)
+	for(int i = 1;i <= Lenth;++ i){
 		scanf("%d",&Array[i]);
+		Array[i + Lenth] = Array[i];
+		Sum[i] = Sum[i - 1] + Array[i];
+	}
+	for(int i = Lenth + 1;i <= (Lenth << 1);++ i)
+		Sum[i] = Sum[i - 1] + Array[i];
 }
 
-void Prepare(){
-	for(int i = 1;i <= Lenth;i++)
-		for(int j = i;j <= Lenth;j++)
-			Sum[i][j] = Sum[i][j - 1] + Array[j];
-}
-
-int DP(){
-	Prepare();
-	for(int l = Lenth;l >= 1;l--){
-		for(int r = l + 1;r <= Lenth;r++){
-//			if(l <= r){
-				int Min = 0x7fffffff;
-				for(int Mid = l;Mid < r;Mid++){
-					Min = std::min(Min,Equation[l][Mid] + Equation[Mid + 1][r] + Sum[l][r]);
-				}
-				Equation[l][r] = Min;
-//			}
+void DP(){
+	for(int l = (Lenth << 1) - 1;l;-- l){
+		for(int r = l + 1;r < Lenth + l && r <= (Lenth << 1);++ r){
+			EquationMin[l][r] = 0x7fffffff;
+			for(int Mid = l;Mid < r;++ Mid){
+				EquationMin[l][r] = std::min(EquationMin[l][r],EquationMin[l][Mid] + EquationMin[Mid + 1][r] - Sum[l - 1] + Sum[r]);
+				EquationMax[l][r] = std::max(EquationMax[l][r],EquationMax[l][Mid] + EquationMax[Mid + 1][r] - Sum[l - 1] + Sum[r]);
+			}
 		}
 	}
-	return Equation[1][Lenth];
+}
+
+void Ans(){
+	int Min = 0x7fffffff,Max = 0;
+	for(int i = 1;i <= Lenth;++ i){
+		Min = std::min(Min,EquationMin[i][i + Lenth - 1]);
+		Max = std::max(Max,EquationMax[i][i + Lenth - 1]);
+	}
+	printf("%d\n",Min);
+	printf("%d",Max);
 }
 
 int main(){
 	Read();
-	printf("%d",DP());
+	DP();
+	Ans();
 	return 0;
 }
 /*

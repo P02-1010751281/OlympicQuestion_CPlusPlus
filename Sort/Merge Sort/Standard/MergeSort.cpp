@@ -2,12 +2,13 @@
 
 int A[500000],Swap[500000];
 
-bool Comp(int x,int y){
-	return x<y;
+bool Comp(int X,int Y){
+	return X < Y;
 }
 
 void MergeSort(int L,int R){
-	int Mid = (L+R)/2,TmpL = L,TmpR = Mid+1,TmpS = L;
+	int Mid = (L+R)/2;
+	int TmpL = L,TmpR = Mid+1,TmpS = L;
 	if(L != R){
 		MergeSort(L,Mid);
 		MergeSort(Mid+1,R);
@@ -32,15 +33,18 @@ void MergeSort(int L,int R){
 			TmpR++;
 			TmpS++;
 		}
-		for(int i = L;i <= R;i++) A[i] = Swap[i];
+		for(int i = L;i <= R;i++) 
+			A[i] = Swap[i];
 	}
 }
 
 int main(){
 	int R;
 	scanf("%d",&R);
-	for(int i = 1;i <= R;i++) scanf("%d",&A[i]);
+	for(int i = 1;i <= R;i++) 
+		scanf("%d",&A[i]);
 	MergeSort(1,R);
-	for(int i = 1;i <= R;i++) printf("%d ",A[i]);
+	for(int i = 1;i <= R;i++) 
+		printf("%d ",A[i]);
 	return 0;
 }

@@ -7,17 +7,19 @@ struct Heap{
 	int *heap,Size;
 	
 	Heap(int Large){
-		heap = new int [Large + 1];
+		heap = new int [Large + 5];
 		Size = 0;
 	}
 	
 	void Delete(){
 		heap[1] = heap[Size --];
 		int Father = 1,Son;
-		while((Father << 1)<= Size){
+		while((Father << 1) <= Size){
 			Son = Father << 1;
-			if(Son< Size && heap[Son] > heap[Son + 1]) ++Son;
-			if(heap[Father] <= heap[Son]) return;
+			if(Son < Size && heap[Son] > heap[Son + 1]) 
+				++Son;
+			if(heap[Father] <= heap[Son]) 
+				return;
 			std::swap(heap[Father],heap[Son]);
 			Father = Son;
 		}
@@ -29,8 +31,10 @@ struct Heap{
 		int Father = 1,Son;
 		while((Father << 1)<= Size){
 			Son = Father << 1;
-			if(Son< Size && heap[Son] > heap[Son + 1]) ++Son;
-			if(heap[Father] <= heap[Son]) return Ans;
+			if(Son< Size && heap[Son] > heap[Son + 1]) 
+				++Son;
+			if(heap[Father] <= heap[Son]) 
+				return Ans;
 			std::swap(heap[Father],heap[Son]);
 			Father = Son;
 		}
